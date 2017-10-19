@@ -1,0 +1,100 @@
+---
+title: "Venn Diagrams "
+author: "Haitao"
+date: "3/15/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Venn diagrams plot 1
+```{r cars}
+library(Vennerable)
+VenTest <- Venn(SetNames= c("This","That","Those"), Weight=c(0,10,5,10,4,7,3,12))
+plot(VenTest)
+```
+
+
+## Venn diagrams plot 2
+A list of character vectors
+```{r cars 2}
+# You can also provide the function Venn() with the Sets parameter (a list of character vectors) and it will calculate the unions and intersections automagically, like this:
+data(StemCell)
+str(StemCell)
+w <- Venn(Sets=StemCell[1:3])
+plot(w)
+```
+
+
+## Venn diagrams plot 3
+If each of your character vectors is in a different file(fileA,fileB,fileC), then you can do the following:
+```{r cars 3}
+#A <- as.vector(scan(fileA, what=""))
+#B <- as.vector(scan(fileB, what=""))
+#C <- as.vector(scan(fileC, what=""))
+#All <- list(A,B,C)
+#names(All) = c("nameA","nameB","nameC")
+#plot(Venn(Sets=All[1:3]))
+```
+
+## Venn diagrams plot 4
+Quite commonly, we may have sets whose intersections we only know by the number of elements. These can be created as Venn objects by supplying a named vector of Weights: 
+```{r cars 4}
+# set doWeights = FALSE, then area size will maintain equally
+data(StemCell)
+Vstem <- Venn(StemCell)
+Vstem3 <- Vstem[, c("OCT4", "SOX2", "NANOG")]
+plot(Vstem3, doWeights = FALSE)
+```
+
+## Venn diagrams plot 5
+Quite commonly, we may have sets whose intersections we only know by the number of elements. These can be created as Venn objects by supplying a named vector of Weights:
+```{r cars 5}
+# set doWeights = TRUE, then area size will depends on each list's size
+plot(Vstem3, doWeights = TRUE)
+
+# or
+C3 <- compute.Venn(Vstem3, doWeights = TRUE)
+plot(C3)
+```
+
+## Venn diagrams plot 6
+The text displayed in each face is controlled by the FaceText element of the show parameter list to plot. Other elements of the parameter control whether, for example, set names are displayed or faces are individually coloured
+```{r cars 6}
+plot(C3, show = list(FaceText = "signature", SetLabels = FALSE,Faces = FALSE))
+```
+
+
+
+## Venn diagrams plot 7
+The package makes its own decisions about how to colour lines and faces depending on the complexity of the diagram. This can be overridden with the gpList argument to plot. The default choices are equivalent to
+```{r cars 7}
+gp <- VennThemes(C3)
+gp <- VennThemes(C3, colourAlgorithm = "binary")
+plot(C3, gpList = gp, show = list(FaceText = "sets", SetLabels = FALSE,Faces = TRUE))
+```
+
+## Venn diagrams plot 8
+Weighted 2-set Venn diagrams for 2 Sets
+```{r cars 8}
+V3.big <- Venn(SetNames = LETTERS[1:3], Weight = 2^(1:8))
+Vmonth2.big <- V3.big[, c(1:2)]
+plot(Vmonth2.big)
+```
+
+
+## Venn diagrams plot 9
+Weighted 3-set Venn diagrams
+There is no general way of creating area-proportional 3-circle diagrams. While these attempts at these diagrams are quite commonly seen, they must almost always be inex- act.
+```{r cars 9}
+Vcombo <- Venn(SetNames = c("Female", "Visible Minority", "CS Major"),Weight = c(0, 4148, 409, 604, 543, 67, 183, 146))
+plot(Vcombo)
+```
