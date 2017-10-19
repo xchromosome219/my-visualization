@@ -6,7 +6,7 @@
 
 ## 第二个，
 
-```
+```R
 git add * 
 git commit -m "m"
 git push origin master
